@@ -21,15 +21,13 @@ class Point:
 
 n=int(input())
 A=[0]*n
-r=[0]*n
 m=[0]*n
-
-summa = sum_mass = 0
+summa_x = summa_y = sum_mass = 0
 for i in range (n):
 	A[i]=Point(input())
-	r[i]=abs(A[i])
 	m[i]=A[i].mass
-	summa += m[i]*r[i]
+	summa_x += m[i]*A[i].x
+	summa_y += m[i]*A[i].y
 	sum_mass += m[i]
-R = summa/sum_mass
+R = ((summa_x/sum_mass)**2 + (summa_y/sum_mass)**2)**0.5
 print(R)
