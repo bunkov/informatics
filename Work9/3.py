@@ -1,12 +1,22 @@
-from decimal import Decimal, getcontext
-getcontext().prec = 2
-print('y, x')
-y=int(input()) #years
-x=float(input()) #every year
-a=x/12 #every month
-S=Decimal(input())
-summ=0
-for i in range(y): #0 -> y-1
-	summ+=a**i
-x = S*Decimal((1+a**y+3*(summ-1))/(a**y+3*summ))a
-print(x)
+from decimal import *
+S=int(input()) # Сумма
+x=int(input()) # Годовой %
+y=int(input()) # Кол-во лет
+
+n=y*12 # Кол-во месяцев
+quota = Decimal(x/100/12).quantize(Decimal('.000001'))
+increasing_factor = quota + 1
+payment=S*increasing_factor**n*(increasing_factor-1)/(increasing_factor**n-1)
+payment=Decimal(payment).quantize(Decimal('.01'))
+print('Аннуитетный платеж',payment)
+print('Переплата',Decimal(payment*n-S).quantize(Decimal('.01')))
+
+print('Месяц ||','Остаток ||','Платеж ||','На проценты ||','На основную сумму')
+ostatok=Decimal(S).quantize(Decimal('.01'))
+for i in range(1,n+1):
+	upbuilding=Decimal(ostatok*quota).quantize(Decimal('.01'))
+	if ostatok + upbuilding <= payment:
+		payment = ostatok + upbuilding
+	na_dolg = payment - upbuilding
+	ostatok += upbuilding - payment
+	print(i, '||',ostatok, '||',payment, '||',upbuilding,'||',na_dolg)
