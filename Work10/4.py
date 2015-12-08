@@ -15,7 +15,7 @@ while len(s) > 0:
 	ru = ' '
 	for i in en:
 		if i.lower().replace('.','') in EnRu:
-			ru += en_ru[i.lower().replace('.','')] + ' '
+			ru += EnRu[i.lower().replace('.','')] + ' '
 		else:
 			ru += i + ' '
 	print(ru, file = out)
