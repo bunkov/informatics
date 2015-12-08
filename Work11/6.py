@@ -36,13 +36,30 @@ class ball():
 		self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
 			и стен по краям окна (размер окна 800х600).
 		"""
-		#FIXME
+		time_factor = 0.4
+		decrease_factor = 0.5
 		if self.x + self.r >= 800 or self.x + self.r <= 0:
-			self.vx = -self.vx
-		self.x += self.vx
+			self.vx = -self.vx*decrease_factor
+			if self.x + self.r >= 800:
+				self.x = 800 - self.r
+			elif self.x + self.r <= 0:
+				self.x = self.r
+			if abs(self.vx) < 1E-3:
+				self.vx = 0
+				self.x = 0
+		self.x += self.vx*time_factor
 		if self.y + self.r >= 600 or self.y + self.r <= 0:
-			self.vy = -self.vy
-		self.y += self.vy - 10//2
+			self.vy = -self.vy*decrease_factor
+			if self.y + self.r >= 600:
+				self.y = 600 - self.r
+			elif self.y + self.r <= 0:
+				self.y = self.r
+			if abs(self.vy) < 1E-3:
+				self.vy = 0
+				self.y = 0
+		self.y += -(self.vy*time_factor + 10//2*time_factor**2)
+		self.vy += -10*time_factor
+		self.set_coords()
 
 	def hittest(self,ob):
 		""" Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте ob.
@@ -52,18 +69,18 @@ class ball():
 		Returns:
 			Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
 		"""
-		#FIXME
-		if (self.x + self.r >= ob.x + ob.r) or (self.y + self.r >= ob.y + ob.r):
+		distance = math.sqrt( (self.x-ob.x)**2+(self.y-ob.y)**2)
+		if distance < self.r + ob.r:
 			return True
 		return False
 
 class gun():
 	""" Класс gun описывает пушку. """
-	def __init__(self,f2_power=10,f2_on=0,an=1,id=canv.create_line(20,450,50,420,width=7)):
-		self.f2_power = f2_power
-		self.f2_on = f2_on
-		self.an = an
-		self.id = id # FIXME: don't know how to set it...
+	def __init__(self):
+		self.f2_power = 10
+		self.f2_on = 0
+		self.an = 1
+		self.id = canv.create_line(20,450,50,420,width=7)
 
 	def fire2_start(self,event):
 		self.f2_on = 1
@@ -99,19 +116,19 @@ class gun():
 	def power_up(self):
 		if self.f2_on:
 			if self.f2_power < 100:
-				self.f2_power += 1
+				self.f2_power += 5
 			canv.itemconfig(self.id,fill = 'orange')
 		else:
 			canv.itemconfig(self.id,fill = 'black')
 
 class target():
 	""" Класс target описывает цель. """ 
-	def __init__(self,points=0,live=1):
-		self.points = points
-		self.live = live
-		# FIXME: don't work!!! How to call this functions when object is created?
-		self.id=canv.create_oval(0,0,0,0)
-		self.id_points=canv.create_text(30,30,text = points,font = '28')
+	def __init__(self):
+		self.points = 0
+		self.live = 1
+		self.id = canv.create_oval(0,0,0,0)
+		self.id_points = canv.create_text(30,30,text = self.points,font = '28')
+		self.new_target()
 
 	def new_target(self):
 		""" Инициализация новой цели. """
