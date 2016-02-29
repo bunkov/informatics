@@ -32,9 +32,12 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-print (args)
 
+way = args.way
 if os.path.exists(way):
-	print(os.listdir(path='.'))
+	directory = os.listdir(path = way)
+	for i in range(len(directory)):
+		if os.path.isfile(os.path.join(way, directory[i])):
+			print(directory[i])
 else:
 	print('This way is not exists')

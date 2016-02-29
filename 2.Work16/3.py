@@ -6,4 +6,4 @@ for name in sys.argv[1:]:
 		strings=[s.rstrip() for s in f.readlines()]
 		for s in strings:
 			print(s)
-		f.close
+		f.close()
