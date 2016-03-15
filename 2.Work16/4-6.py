@@ -34,6 +34,8 @@ parser.add_argument(
 args = parser.parse_args()
 
 way = args.way
+'''if os.path.exists(way):
+	print(os.listdir(path='.'))'''
 if os.path.exists(way):
 	directory = os.listdir(path = way)
 	for i in range(len(directory)):
