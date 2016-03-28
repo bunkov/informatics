@@ -57,6 +57,19 @@ def bfs(G, start, fired = [], edge_list= []): # Поиск по ширине
 				edge_list.append(edge)
 	return edge_list, fired
 
+def dijkstra(G, start): # Алгоритм дейкстры
+	shortest_path = {node: float('+inf') for node in G}
+	shortest_path[start] = 0
+	queue = [start]
+	while queue:
+		current = queue.pop(0)
+		for neighbour in G[current]:
+			offered_shortest_path = shortest_path[current] + int(G[current][neighbour]['weight'])
+			if offered_shortest_path < shortest_path[neighbour]:
+				shortest_path[neighbour] = offered_shortest_path
+				queue.append(neighbour)
+	return shortest_path
+
 data_file = open('2.txt')
 #data_file = open(input('Name of file: ')+'.txt')
 G = get_graph(data_file)
@@ -67,12 +80,12 @@ nx.draw_networkx_nodes(G,pos,node_size=100)
 nx.draw_networkx_edges(G, pos, G.edges(), width=5, alpha=1, edge_color='b')
 nx.draw_networkx_labels(G,pos,font_size=20,font_family='arial')
 
-edge_list, woken = dfs(G, 'Апельсиновый') # Ребра основного дерева
+edge_list, woken = bfs(G, 'Апельсиновый') # Ребра основного дерева
 n = 1 # Кол-во компонент связности
 while len(woken) != len(G.nodes()):
 	for node in G.nodes():
 		if node not in woken:
-			edge_part, woken_part = bfs(G, node)
+			edge_part, woken_part = dfs(G, node)
 			edge_list += edge_part
 			woken += woken_part
 			n += 1
@@ -84,6 +97,8 @@ if n == 1:
 	print('Граф связный')
 else:
 	print('Граф несвязный')
+town = input('The shortest path from: ')
+print(dijkstra(G, town))
 plt.axis('off')
 plt.show()
 data_file.close()
