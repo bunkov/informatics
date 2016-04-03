@@ -22,5 +22,6 @@ def main():
 		print('Ошибка: не город')
 		main()
 
-G = getter.get_graph()
-main()
+if __name__ == '__main__':
+	G = getter.get_graph()
+	main()

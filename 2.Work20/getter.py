@@ -21,7 +21,7 @@ def get_graph(file_name = 'FruitLand'): # Считать граф из файл�
 	data_file.close()
 	return G
 
-def rendering(G): # Отрисовка
+def rendering(G): # Отрисовка и возврат координат
 	pos = nx.spring_layout(G) # Задать координаты вершин графа по методу spring
 	
 	# Отрисовываем весь граф
@@ -49,8 +49,7 @@ def get_path(G): # Считать по вводимым данным путь в
 	return edge_list
 
 if __name__ == '__main__':
-	#G = get_graph('NumberLand')
-	G = get_graph()
+	G = get_graph('NumberLand')
 	nx.draw_networkx_edges(G, rendering(G), get_path(G), width=6, alpha=1, edge_color='r') # Отрисовываем путь
 
 	plt.axis('off')
