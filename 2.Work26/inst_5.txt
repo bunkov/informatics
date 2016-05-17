@@ -1,0 +1,6 @@
+q0 _ q0 _ R
+q0 a Q _ R
+q1 a Q _ R
+q0 b q1 b R
+q0 c q1 c R
+q1 _ Q _ L
