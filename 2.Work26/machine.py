@@ -49,8 +49,10 @@ while init_state != 'Q': # Q - конечное состояние
 			init_state = end_state
 		
 		else:
-			print("Value isn't exist:")
+			print("Value isn't exist:", init_value, 'in', init_state, inst_dict[init_state])
+			break
 	else:
-		print("State isn't exist")
+		print("State isn't exist:", init_state, inst_dict.keys())
+		break
 ch_line = ''.join(ch_line) # Переводим массив обратно в строку
 print(line, ' -> ', ch_line)
